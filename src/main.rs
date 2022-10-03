@@ -1,3 +1,5 @@
+use read_write_procmem_windows::proc::get_proc_list;
+
 fn main() {
-    println!("Hello, world!");
+    println!("{:#?}", get_proc_list());
 }
