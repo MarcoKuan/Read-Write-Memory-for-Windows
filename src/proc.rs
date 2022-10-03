@@ -12,10 +12,14 @@ use windows::Win32::{
 pub fn get_proc_list() -> BTreeMap<String, u32> {
     // B-TreeMap used to store (exe_name, process_id), sorted in alphabetical order
     let mut exe_id_map: BTreeMap<String, u32> = BTreeMap::new();
+    // Holds the process information of each
+    let mut pe_32: PROCESSENTRY32;
+    // Stores a snapshot of all the running processes
+    let h_proc_snap: HANDLE;
 
     unsafe {
-        // Holds the process information of each
-        let mut pe_32: PROCESSENTRY32 = PROCESSENTRY32 {
+        // Init the process entry
+        pe_32 = PROCESSENTRY32 {
             dwSize: 0,                   // u32
             cntUsage: 0,                 // u32
             th32ProcessID: 0,            // u32
@@ -28,8 +32,8 @@ pub fn get_proc_list() -> BTreeMap<String, u32> {
             szExeFile: [CHAR(0u8); 260], // [CHAR; 260]
         };
 
-        // Stores a snapshot of all the running processes
-        let h_proc_snap: HANDLE = match CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0) {
+        // Take a snapshot of all the processes running
+        h_proc_snap = match CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0) {
             Ok(snap) => snap,
             Err(e) => panic!("Failed to snapshot correctly: {:?}", e),
         };
@@ -62,6 +66,9 @@ pub fn get_proc_list() -> BTreeMap<String, u32> {
                 break;
             }
         }
+
+        // Close handle to the snapshot
+        CloseHandle(h_proc_snap);
     }
 
     // Return the BTreeMap
