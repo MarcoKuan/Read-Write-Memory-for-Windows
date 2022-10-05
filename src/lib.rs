@@ -9,12 +9,13 @@ use windows::Win32::Foundation::HANDLE;
 /// * `pid` - The process id that the user will read/write/attach to
 /// * `h_proc` - The handle to the process which is used for writing to the specified process (in pid)
 ///
-/// # Format: \[cmd\] \[addr\] \[w/r bytes\]
-/// * (P)rocess Attach: P [process in decimal]
-/// * Process (R)ead:   W [Address in dec/hex] [How many bytes to read in dec]
-/// * Process (W)rite:  R [Address in dec/hex] [String of byte code instructions to write]
-///   * Byte code instruction format looks like: \x\[BYTE\]\x\[BYTE\]
-///     * For example: \xEF\xBE\xAD\xDE
+/// # User input:
+/// |                              |           |    Format            |                                               |             Example 1         |          Example 2            |
+/// |------------------------------|-----------|----------------------|-----------------------------------------------|-------------------------------|-------------------------------|
+/// |           Name               |  \[cmd\]  |      \[addr\]        |                 \[w/r bytes\]                 |                               |                               |
+/// |       (P)rocess Attach       |     P     | [process in decimal] |                                               | P 103                         |                               |
+/// |       Process (R)ead         |     W     | [Address in dec/hex] |       [How many bytes to read in dec]         | R 0xDEADBEEF 5                | R 3735928559 5                |
+/// |       Process (W)rite        |     R     | [Address in dec/hex] |  [String of byte code instructions to write]  | W 0xDEADBEEF \xEF\xBE\xAD\xDE | W 3735928559 \xEF\xBE\xAD\xDE |
 pub fn get_cmd(pid: &mut u32, h_proc: &mut HANDLE) {
     // User input string
     let mut buf = String::new();
