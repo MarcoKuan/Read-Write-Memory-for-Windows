@@ -28,6 +28,8 @@ use windows::Win32::{
 ///
 /// let bytes_read: Vec<u8> = read_write::read_bytes(&pid, &addr, &len);
 /// ```
+///
+/// Refer to [Toolhelp32ReadProcessMemory](https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-toolhelp32readprocessmemory) and [Toolhelp32ReadProcessMemory](https://microsoft.github.io/windows-docs-rs/doc/windows/Win32/System/Diagnostics/ToolHelp/fn.Toolhelp32ReadProcessMemory.html)
 pub fn read_bytes(pid: &u32, base_addr: &u64, num_bytes: &usize) -> Vec<u8> {
     // Stores the bytes that were read into the vector
     let mut buf_read: Vec<u8> = vec![0u8; *num_bytes];
@@ -73,6 +75,8 @@ pub fn read_bytes(pid: &u32, base_addr: &u64, num_bytes: &usize) -> Vec<u8> {
 ///     read_write::write_bytes(&h_proc, &addr, &w_bytes);
 /// }
 /// ```
+///
+/// Refer to [WriteProcessMemory](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory) and [WriteProcessmemory](https://microsoft.github.io/windows-docs-rs/doc/windows/Win32/System/Diagnostics/Debug/fn.WriteProcessMemory.html)
 pub unsafe fn write_bytes(h_proc: &HANDLE, base_addr: &u64, buf_write: &Vec<u8>) {
     WriteProcessMemory(
         *h_proc,                             // P0 (generic)
