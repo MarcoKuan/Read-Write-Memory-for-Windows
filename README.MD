@@ -2,6 +2,7 @@
 
 A terminal project that was made using "[Rust for Windows](https://github.com/microsoft/windows-rs)". This program will run a terminal. The user will run the program and the person running the terminal will input one of three commands that will be perform certain functions.
 
+## Commands Table
 |                              |           |    Format            |                                               |             Example 1         |          Example 2            |
 |------------------------------|-----------|----------------------|-----------------------------------------------|-------------------------------|-------------------------------|
 |           Name               |  \[cmd\]  |      \[addr\]        |                 \[w/r bytes\]                 |                               |                               |
@@ -11,4 +12,7 @@ A terminal project that was made using "[Rust for Windows](https://github.com/mi
 
 [Note]: To terminate the program, please use Ctrl-C to terminate the program.
 
-Documentation is provided in the source code. A video will be provided on how to use this program. 
+Documentation is provided in the source code.
+
+## Video Demo
+[Here](https://www.youtube.com/watch?v=pL2jn3DqPfg) is a video demo of me solving a CrackMe with my program. x32dbg is used to show the control flow of the program, as well as what address I will read/write to.
