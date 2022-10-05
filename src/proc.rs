@@ -9,8 +9,21 @@ use windows::Win32::{
     },
 };
 
-// Source example provided by Microsoft: https://learn.microsoft.com/en-us/windows/win32/toolhelp/taking-a-snapshot-and-viewing-processes
-// Traverses through the process list
+/// Traverses through the process list by taking a snapshot of the process list and
+/// runs through every program and stores it into a list to be returned
+///
+/// Returns a vector that holds a data related to the current running processes
+///
+/// Source [Example](https://learn.microsoft.com/en-us/windows/win32/toolhelp/taking-a-snapshot-and-viewing-processes) provided by Microsoft on how I implemented this
+///
+/// # Examples
+/// ```
+/// use read_write_procmem_windows::proc;
+///
+/// let list = proc::get_proc_list();
+/// ```
+///
+/// Refer to [CreateToolhelp32Snapshot](https://learn.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot) and [CreateToolhelp32Snapshot](https://microsoft.github.io/windows-docs-rs/doc/windows/Win32/System/Diagnostics/ToolHelp/fn.CreateToolhelp32Snapshot.html)
 pub fn get_proc_list() -> Vec<(String, u32, HANDLE)> {
     // Return variable: Stores all the necessary data for read/write ("Database" of our process)
     let mut proc_database: Vec<(String, u32, HANDLE)> = Vec::new();
@@ -98,7 +111,24 @@ pub fn get_proc_list() -> Vec<(String, u32, HANDLE)> {
     proc_database
 }
 
-// Traverse through the vector containing the tuples from get_proc_list and return the tuple from the pid
+/// Traverse through the vector containing the tuples from get_proc_list and return the tuple from the pid
+///
+/// Returns a tuple with (process exe name, process id, process handle)
+///
+/// # Arguments
+///
+/// * `list`        - A reference to a vector that holds all the process information necessary for reading/writing
+/// * `desired_pid` - A reference to a u32 that holds the process id
+///
+/// # Examples
+///
+/// ```no_run
+/// use read_write_procmem_windows::proc;
+///
+/// let list = proc::get_proc_list();
+/// let pid = 100;
+/// let my_data = proc::get_tuple(&list, &pid);
+/// ```
 pub fn get_tuple<'a>(
     list: &'a Vec<(String, u32, HANDLE)>,
     desired_pid: &u32,
